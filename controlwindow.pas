@@ -55,6 +55,7 @@ begin
       frmBoard.Left := Screen.Monitors[boardScreen].Left;
       frmBoard.Show;
       frmBoard.WindowState := wsMaximized;
+      break;
     end;
   end;
 

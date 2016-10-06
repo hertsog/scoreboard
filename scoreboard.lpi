@@ -42,12 +42,14 @@
         <Filename Value="controlwindow.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmControl"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit1>
       <Unit2>
         <Filename Value="board.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmBoard"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
       </Unit2>
     </Units>
