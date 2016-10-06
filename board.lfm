@@ -1,0 +1,9 @@
+object frmBoard: TfrmBoard
+  Left = 752
+  Height = 240
+  Top = 132
+  Width = 320
+  BorderStyle = bsNone
+  Caption = 'Scoreboard'
+  LCLVersion = '1.6.0.4'
+end

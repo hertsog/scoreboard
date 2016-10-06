@@ -1,0 +1,20 @@
+object frmControl: TfrmControl
+  Left = 259
+  Height = 240
+  Top = 130
+  Width = 320
+  BorderStyle = bsSingle
+  Caption = 'Scoreboard Control Panel'
+  ClientHeight = 240
+  ClientWidth = 320
+  Position = poDefault
+  LCLVersion = '1.6.0.4'
+  object btnShowBoard: TSpeedButton
+    Left = 184
+    Height = 40
+    Top = 8
+    Width = 128
+    Caption = 'SHOW SCOREBOARD'
+    OnClick = btnShowBoardClick
+  end
+end
