@@ -1,9 +1,21 @@
 object frmBoard: TfrmBoard
-  Left = 752
-  Height = 240
-  Top = 132
-  Width = 320
+  Left = 719
+  Height = 407
+  Top = 127
+  Width = 499
   BorderStyle = bsNone
   Caption = 'Scoreboard'
+  ClientHeight = 407
+  ClientWidth = 499
+  Color = clGray
   LCLVersion = '1.6.0.4'
+  object shpShotclock: TShape
+    Left = 168
+    Height = 169
+    Top = 8
+    Width = 169
+    Brush.Color = clGray
+    Pen.Color = clWhite
+    Pen.Width = 2
+  end
 end

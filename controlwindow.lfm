@@ -1,12 +1,14 @@
 object frmControl: TfrmControl
-  Left = 259
+  Left = 375
   Height = 240
-  Top = 130
+  Top = 126
   Width = 320
   BorderStyle = bsSingle
   Caption = 'Scoreboard Control Panel'
   ClientHeight = 240
   ClientWidth = 320
+  OnCreate = FormCreate
+  OnDestroy = FormDestroy
   Position = poDefault
   LCLVersion = '1.6.0.4'
   object btnShowBoard: TSpeedButton
