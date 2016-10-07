@@ -17,6 +17,7 @@ type
     procedure btnShowBoardClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
+    procedure FormShow(Sender: TObject);
   private
     { private declarations }
   public
@@ -60,8 +61,9 @@ begin
   //end;
 
   frmBoard.Show;
-  frmBoard.BorderStyle := bsSizeable;
-  //frmBoard.WindowState := wsMaximized;
+  //frmBoard.BorderStyle := bsSizeable;
+  frmBoard.WindowState := wsMaximized;
+  frmBoard.Font.Name := 'Digital-7 Mono';
   frmBoard.ReAlign;
 end;
 
@@ -69,13 +71,18 @@ procedure TfrmControl.FormCreate(Sender: TObject);
 begin
   AddFontResource('digital-7-mono.ttf');
   SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
-  //Label1.Font.Name := 'Digital-7 Mono';
 end;
 
 procedure TfrmControl.FormDestroy(Sender: TObject);
 begin
   RemoveFontResource('digital-7-mono.ttf');
   SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
+end;
+
+procedure TfrmControl.FormShow(Sender: TObject);
+begin
+  btnShowBoardClick(Sender);
+  Hide;
 end;
 
 end.
