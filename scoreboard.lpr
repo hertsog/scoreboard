@@ -7,16 +7,23 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, controlwindow, board
-  { you can add units after this };
+  Forms, board,
+  { you can add units after this }
+  windows;
 
 {$R *.res}
 
 begin
   RequireDerivedFormResource:=True;
   Application.Initialize;
-  Application.CreateForm(TfrmControl, frmControl);
   Application.CreateForm(TfrmBoard, frmBoard);
+
+  AddFontResource('digital-7-mono.ttf');
+  SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
+
   Application.Run;
+
+  RemoveFontResource('digital-7-mono.ttf');
+  SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 end.
 

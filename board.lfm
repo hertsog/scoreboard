@@ -1,14 +1,20 @@
 object frmBoard: TfrmBoard
-  Left = 719
+  Left = 363
   Height = 480
-  Top = 127
+  Top = 128
   Width = 640
   BorderStyle = bsNone
   Caption = 'Scoreboard'
   ClientHeight = 480
   ClientWidth = 640
   Color = clGray
+  KeyPreview = True
   OnClose = FormClose
+  OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnResize = FormResize
+  OnShow = FormShow
+  Position = poDefault
   LCLVersion = '1.6.0.4'
   object shpShotclock: TShape
     Left = 168
@@ -29,6 +35,7 @@ object frmBoard: TfrmBoard
     Caption = '24'
     Color = clGray
     Layout = tlCenter
+    ParentColor = False
     Transparent = False
     OptimalFill = True
   end
@@ -39,7 +46,8 @@ object frmBoard: TfrmBoard
     Width = 35
     Alignment = taCenter
     AutoSize = False
-    Caption = 'VISITOR'
+    Caption = 'HOME'
+    Font.Height = 16
     ParentColor = False
     ParentFont = False
     OptimalFill = True
@@ -206,5 +214,324 @@ object frmBoard: TfrmBoard
     ParentColor = False
     ParentFont = False
     OptimalFill = True
+  end
+  object btnHomeP2: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 88
+    Width = 48
+    Caption = '+2 (Q)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomeP2Click
+    ParentFont = False
+  end
+  object btnHomeP3: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 104
+    Width = 48
+    Caption = '+3 (A)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomeP3Click
+    ParentFont = False
+  end
+  object btnHomeP1: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 72
+    Width = 48
+    Caption = '+1 (1)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomeP1Click
+    ParentFont = False
+  end
+  object btnHomeM1: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 120
+    Width = 48
+    Caption = '-1 (Z)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomeM1Click
+    ParentFont = False
+  end
+  object btnVisitorP1: TSpeedButton
+    Left = 584
+    Height = 16
+    Top = 72
+    Width = 48
+    Caption = '+1 (0)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorP1Click
+    ParentFont = False
+  end
+  object btnVisitorP2: TSpeedButton
+    Left = 584
+    Height = 16
+    Top = 88
+    Width = 48
+    Caption = '+2 (O)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorP2Click
+    ParentFont = False
+  end
+  object btnVisitorP3: TSpeedButton
+    Left = 584
+    Height = 16
+    Top = 104
+    Width = 48
+    Caption = '+3 (K)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorP3Click
+    ParentFont = False
+  end
+  object btnVisitorM1: TSpeedButton
+    Left = 584
+    Height = 16
+    Top = 120
+    Width = 48
+    Caption = '-1 (M)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorM1Click
+    ParentFont = False
+  end
+  object btnReset24: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 200
+    Width = 72
+    Caption = 'RESET 24 (↑)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnReset24Click
+    ParentFont = False
+  end
+  object btnReset14: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 216
+    Width = 72
+    Caption = 'RESET 14 (↓)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnReset14Click
+    ParentFont = False
+  end
+  object btnReset1000: TSpeedButton
+    Left = 560
+    Height = 16
+    Top = 200
+    Width = 72
+    Caption = '10:00 (F1)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnReset1000Click
+    ParentFont = False
+  end
+  object btnShotclockP1: TSpeedButton
+    Left = 336
+    Height = 16
+    Top = 104
+    Width = 32
+    Caption = '+1s (F2)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnShotclockP1Click
+    ParentFont = False
+  end
+  object btnShotclockM1: TSpeedButton
+    Left = 336
+    Height = 16
+    Top = 136
+    Width = 32
+    Caption = '-1s (F3)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnShotclockM1Click
+    ParentFont = False
+  end
+  object btnTimerP1: TSpeedButton
+    Left = 344
+    Height = 16
+    Top = 192
+    Width = 32
+    Caption = '+1s (F4)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnTimerP1Click
+    ParentFont = False
+  end
+  object btnTimerM1: TSpeedButton
+    Left = 344
+    Height = 16
+    Top = 208
+    Width = 32
+    Caption = '-1s (F5)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnTimerM1Click
+    ParentFont = False
+  end
+  object btnHomeFaultsP1: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 279
+    Width = 72
+    Caption = '+1 (3)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomeFaultsP1Click
+    ParentFont = False
+  end
+  object btnHomeFaultsM1: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 295
+    Width = 72
+    Caption = '-1 (E)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomeFaultsM1Click
+    ParentFont = False
+  end
+  object btnVisitorFaultsP1: TSpeedButton
+    Left = 560
+    Height = 16
+    Top = 279
+    Width = 72
+    Caption = '+1 (8)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorFaultsP1Click
+    ParentFont = False
+  end
+  object btnVisitorFaultsM1: TSpeedButton
+    Left = 560
+    Height = 16
+    Top = 295
+    Width = 72
+    Caption = '-1 (U)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorFaultsM1Click
+    ParentFont = False
+  end
+  object btnHomeTimeoutsP1: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 336
+    Width = 72
+    Caption = '+1 (D)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomeTimeoutsP1Click
+    ParentFont = False
+  end
+  object btnHomeTimeoutsM1: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 352
+    Width = 72
+    Caption = '-1 (C)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomeTimeoutsM1Click
+    ParentFont = False
+  end
+  object btnVisitorTimeoutsP1: TSpeedButton
+    Left = 560
+    Height = 16
+    Top = 336
+    Width = 72
+    Caption = '+1 (H)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorTimeoutsP1Click
+    ParentFont = False
+  end
+  object btnVisitorTimeoutsM1: TSpeedButton
+    Left = 560
+    Height = 16
+    Top = 352
+    Width = 72
+    Caption = '-1 (B)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorTimeoutsM1Click
+    ParentFont = False
+  end
+  object btnHomePossess: TSpeedButton
+    Left = 0
+    Height = 16
+    Top = 384
+    Width = 72
+    Caption = '← (←)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnHomePossessClick
+    ParentFont = False
+  end
+  object btnVisitorPossess: TSpeedButton
+    Left = 560
+    Height = 16
+    Top = 383
+    Width = 72
+    Caption = '→ (→)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnVisitorPossessClick
+    ParentFont = False
+  end
+  object btnShotclockRunning: TSpeedButton
+    Left = 176
+    Height = 16
+    Top = 152
+    Width = 152
+    Caption = 'RUNNING (SPACE)'
+    Color = clSilver
+    Flat = True
+    Transparent = False
+    OnClick = btnShotclockRunningClick
+    ParentFont = False
+  end
+  object tmrTicker: TTimer
+    Enabled = False
+    Interval = 100
+    OnTimer = tmrTickerTimer
+    left = 128
+    top = 16
   end
 end

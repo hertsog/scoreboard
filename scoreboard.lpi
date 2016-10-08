@@ -33,25 +33,18 @@
         <PackageName Value="LCL"/>
       </Item1>
     </RequiredPackages>
-    <Units Count="3">
+    <Units Count="2">
       <Unit0>
         <Filename Value="scoreboard.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit0>
       <Unit1>
-        <Filename Value="controlwindow.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="frmControl"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-      </Unit1>
-      <Unit2>
         <Filename Value="board.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmBoard"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-      </Unit2>
+      </Unit1>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -65,6 +58,9 @@
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <Linking>
+      <Debugging>
+        <UseExternalDbgSyms Value="True"/>
+      </Debugging>
       <Options>
         <Win32>
           <GraphicApplication Value="True"/>
