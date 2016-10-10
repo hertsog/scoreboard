@@ -55,6 +55,8 @@ type
     lblVisitorPossess: TLabel;
     shpShotclock: TShape;
     btnHomeP2: TSpeedButton;
+    btnHomeName: TSpeedButton;
+    btnVisitorName: TSpeedButton;
     tmrTicker: TTimer;
     procedure btnHomeFaultsM1Click(Sender: TObject);
     procedure btnHomeFaultsP1Click(Sender: TObject);
@@ -76,6 +78,7 @@ type
     procedure btnVisitorFaultsM1Click(Sender: TObject);
     procedure btnVisitorFaultsP1Click(Sender: TObject);
     procedure btnVisitorM1Click(Sender: TObject);
+    procedure btnVisitorNameClick(Sender: TObject);
     procedure btnVisitorP1Click(Sender: TObject);
     procedure btnVisitorP2Click(Sender: TObject);
     procedure btnVisitorP3Click(Sender: TObject);
@@ -87,9 +90,11 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormResize(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure btnHomeNameClick(Sender: TObject);
     procedure tmrTickerTimer(Sender: TObject);
   private
     { private declarations }
+    HomeName, VisitorName: string;
     HomeScore, VisitorScore: Integer;
     ShotClockTime, GameTime: Integer;
     HomeFaults, VisitorFaults: Integer;
@@ -263,6 +268,20 @@ begin
   FormKeyDown(Self, Key, []);
 end;
 
+procedure TfrmBoard.btnVisitorNameClick(Sender: TObject);
+var
+  NewName: string;
+begin
+  NewName := InputBox('Set team name', 'Team name:', 'VISITOR');
+  if NewName <> '' then
+  begin
+    VisitorName := NewName;
+    UpdateBoard(Self);
+    if frmOtherBoard <> nil then
+      UpdateBoard(frmOtherBoard);
+  end;
+end;
+
 procedure TfrmBoard.btnVisitorP1Click(Sender: TObject);
 var
   Key: Word = 48;
@@ -308,7 +327,8 @@ end;
 procedure TfrmBoard.FormCreate(Sender: TObject);
 begin
   Font.Name := 'Digital-7 Mono';
-  lblShotclock.Font.Color := $00118EFF;
+  lblShotclock.Font.Color := $0048DBFF;
+  lblTimer.Font.Color := $000404FF;
   InitVars;
 end;
 
@@ -407,6 +427,8 @@ begin
 
   if Tag = 1 then
   begin
+    btnHomeName.Hide;
+    btnVisitorName.Hide;
     btnHomeFaultsM1.Hide;
     btnShotclockRunning.Hide;
     btnVisitorPossess.Hide;
@@ -436,16 +458,40 @@ begin
   end;
 end;
 
-procedure TfrmBoard.tmrTickerTimer(Sender: TObject);
+procedure TfrmBoard.btnHomeNameClick(Sender: TObject);
+var
+  NewName: string;
 begin
+  NewName := InputBox('Set team name', 'Team name:', 'HOME');
+  if NewName <> '' then
+  begin
+    HomeName := NewName;
+    UpdateBoard(Self);
+    if frmOtherBoard <> nil then
+      UpdateBoard(frmOtherBoard);
+  end;
+end;
+
+procedure TfrmBoard.tmrTickerTimer(Sender: TObject);
+var
+  PrevSCTime: Integer;
+begin
+  // Save current shotclock state to check later if it already was 0
+  PrevSCTime := ShotClockTime;
+
   ShotClockTime := Max(ShotClockTime - 1, 0);
   GameTime := Max(GameTime - 1, 0);
 
-  if (ShotClockTime = 0) or (GameTime = 0) then
+  if (GameTime = 0) then
   begin
     sndPlaySound('buzzer.wav', SND_ASYNC or SND_NODEFAULT);
     TimeRunning := False;
     tmrTicker.Enabled := False;
+  end
+  // Play sound only if shotclock was not already 0
+  else if (ShotClockTime = 0) and (PrevSCTime > 0) then
+  begin
+    sndPlaySound('buzzer.wav', SND_ASYNC or SND_NODEFAULT);
   end;
 
   UpdateBoard(Self);
@@ -501,10 +547,10 @@ begin
   lblVisitor.Height := shpShotclock.Height div 2;
 
   // Home score
-  lblHomescore.Top := shpShotclock.Height div 2;
+  lblHomescore.Top := trunc(shpShotclock.Height * 0.45);
   lblHomescore.Left := 8;
-  lblHomescore.Width := Trunc((shpShotclock.Left - 16) * 0.7);
-  lblHomescore.Height := shpShotclock.Height div 2;
+  lblHomescore.Width := shpShotclock.Left - 16;
+  lblHomescore.Height := trunc(shpShotclock.Height * 0.7);
 
   // Home score +1 button
   btnHomeP1.Top := lblHomescore.Top;
@@ -535,10 +581,10 @@ begin
   btnHomeM1.Font.Height := btnHomeM1.Height;
 
   // Visitor score
-  lblVisitorscore.Top := shpShotclock.Height div 2;
+  lblVisitorscore.Top := trunc(shpShotclock.Height * 0.45);
   lblVisitorscore.Left := shpShotclock.Left + shpShotclock.Width + 8;
-  lblVisitorscore.Width := Trunc((shpShotclock.Left - 16) * 0.7);
-  lblVisitorscore.Height := shpShotclock.Height div 2;
+  lblVisitorscore.Width := shpShotclock.Left - 16;
+  lblVisitorscore.Height := trunc(shpShotclock.Height * 0.7);
 
   // Visitor score +1 button
   btnVisitorP1.Top := lblVisitorscore.Top;
@@ -570,50 +616,50 @@ begin
 
   // Game timer
   lblTimer.Top := shpShotclock.Top + shpShotclock.Height + 8;
-  lblTimer.Left := shpShotclock.Left;
-  lblTimer.Width := shpShotclock.Width;
-  lblTimer.Height := trunc(Height * 0.2);
+  lblTimer.Left := shpShotclock.Left - (shpShotclock.Width div 4);
+  lblTimer.Width := shpShotclock.Width * 3 div 2;
+  lblTimer.Height := trunc(Height * 0.3);
 
   // Timer +1 button
   btnTimerP1.Top := lbltimer.Top + trunc(lblTimer.Height * 0.1);
   btnTimerP1.Left := lblTimer.Left + lblTimer.Width;
-  btnTimerP1.Width := (lblTimer.Height div 2) * 2;
+  btnTimerP1.Width := (lblTimer.Height div 10) * 7;
   btnTimerP1.Height := trunc(lblTimer.Height * 0.4);
   btnTimerP1.Font.Height := trunc(btnTimerP1.Height * 0.7);
 
   // Timer -1 button
   btnTimerM1.Top := lbltimer.Top + (lblTimer.Height div 2);
   btnTimerM1.Left := lblTimer.Left + lblTimer.Width;
-  btnTimerM1.Width := (lblTimer.Height div 2) * 2;
+  btnTimerM1.Width := (lblTimer.Height div 10) * 7;
   btnTimerM1.Height := trunc(lblTimer.Height * 0.4);
   btnTimerM1.Font.Height := trunc(btnTimerM1.Height * 0.7);
 
   // Reset 24 button
   btnReset24.Top := lbltimer.Top + trunc(lblTimer.Height * 0.1);
   btnReset24.Left := 8;
-  btnReset24.Width := (lblTimer.Height div 2) * 3;
+  btnReset24.Width := (lblTimer.Height div 10) * 11;
   btnReset24.Height := trunc(lblTimer.Height * 0.4);
   btnReset24.Font.Height := trunc(btnReset24.Height * 0.7);
 
   // Reset 14 button
   btnReset14.Top := lbltimer.Top + (lblTimer.Height div 2);
   btnReset14.Left := 8;
-  btnReset14.Width := (lblTimer.Height div 2) * 3;
+  btnReset14.Width := (lblTimer.Height div 10) * 11;
   btnReset14.Height := trunc(lblTimer.Height * 0.4);
   btnReset14.Font.Height := trunc(btnReset14.Height * 0.7);
 
   // Reset 10:00 button
   btnReset1000.Top := lbltimer.Top + trunc(lblTimer.Height * 0.1);
-  btnReset1000.Left := Width - (lblTimer.Height div 2) * 2 - 8;
-  btnReset1000.Width := (lblTimer.Height div 2) * 2;
-  btnReset1000.Height := trunc(lblTimer.Height * 0.4);
+  btnReset1000.Left := Width - (lblTimer.Height div 10) * 5 - 8;
+  btnReset1000.Width := (lblTimer.Height div 10) * 5;
+  btnReset1000.Height := trunc(lblTimer.Height * 0.2);
   btnReset1000.Font.Height := trunc(btnReset1000.Height * 0.7);
 
   // Faults label
-  lblFaults.Top := trunc(Height * 0.6);
+  lblFaults.Top := trunc(Height * 0.7);
   lblFaults.Left := shpShotclock.Left;
   lblFaults.Width := shpShotclock.Width;
-  lblFaults.Height := trunc(Height * 0.13);
+  lblFaults.Height := trunc(Height * 0.1);
 
   // Home faults +1 button
   btnHomeFaultsP1.Top := lblFaults.Top + trunc(lblFaults.Height * 0.1);
@@ -644,22 +690,22 @@ begin
   btnVisitorFaultsM1.Font.Height := btnVisitorFaultsM1.Height;
 
   // Home faults
-  lblHomeFaults.Top := trunc(Height * 0.6);
+  lblHomeFaults.Top := lblFaults.Top;
   lblHomeFaults.Left := 0;
   lblHomeFaults.Width := trunc(shpShotclock.Left * 0.8);
-  lblHomeFaults.Height := trunc(Height * 0.13);
+  lblHomeFaults.Height := lblFaults.Height;
 
   // Visitor faults
-  lblVisitorFaults.Top := trunc(Height * 0.6);
+  lblVisitorFaults.Top := lblFaults.Top;
   lblVisitorFaults.Left := trunc(shpShotclock.Left * 1.2 + shpShotclock.Width);
   lblVisitorFaults.Width := trunc(shpShotclock.Left * 0.8);
-  lblVisitorFaults.Height := trunc(Height * 0.13);
+  lblVisitorFaults.Height := lblFaults.Height;
 
   // Timeouts label
-  lblTimeouts.Top := trunc(Height * 0.73);
+  lblTimeouts.Top := trunc(Height * 0.8);
   lblTimeouts.Left := shpShotclock.Left;
   lblTimeouts.Width := shpShotclock.Width;
-  lblTimeouts.Height := trunc(Height * 0.13);
+  lblTimeouts.Height := trunc(Height * 0.1);
 
   // Home timeouts +1 button
   btnHomeTimeoutsP1.Top := lblTimeouts.Top + trunc(lblTimeouts.Height * 0.1);
@@ -690,22 +736,22 @@ begin
   btnVisitorTimeoutsM1.Font.Height := btnVisitorTimeoutsM1.Height;
 
   // Home timeouts
-  lblHomeTimeouts.Top := trunc(Height * 0.73);
+  lblHomeTimeouts.Top := lblTimeouts.Top;
   lblHomeTimeouts.Left := 0;
   lblHomeTimeouts.Width := trunc(shpShotclock.Left * 0.8);
-  lblHomeTimeouts.Height := trunc(Height * 0.13);
+  lblHomeTimeouts.Height := lblTimeouts.Height;
 
   // Visitor timeouts
-  lblVisitorTimeouts.Top := trunc(Height * 0.73);
+  lblVisitorTimeouts.Top := lblTimeouts.Top;
   lblVisitorTimeouts.Left := trunc(shpShotclock.Left * 1.2 + shpShotclock.Width);
   lblVisitorTimeouts.Width := trunc(shpShotclock.Left * 0.8);
-  lblVisitorTimeouts.Height := trunc(Height * 0.13);
+  lblVisitorTimeouts.Height := lblTimeouts.Height;
 
   // Possession label
-  lblPossess.Top := trunc(Height * 0.86);
+  lblPossess.Top := trunc(Height * 0.9);
   lblPossess.Left := shpShotclock.Left;
   lblPossess.Width := shpShotclock.Width;
-  lblPossess.Height := trunc(Height * 0.13);
+  lblPossess.Height := trunc(Height * 0.1);
 
   // Home possession button
   btnHomePossess.Top := lblPossess.Top;
@@ -722,20 +768,22 @@ begin
   btnVisitorPossess.Font.Height := btnVisitorPossess.Height div 2;
 
   // Home possession
-  lblHomePossess.Top := trunc(Height * 0.86);
+  lblHomePossess.Top := lblPossess.Top;
   lblHomePossess.Left := 0;
   lblHomePossess.Width := trunc(shpShotclock.Left * 0.8);
-  lblHomePossess.Height := trunc(Height * 0.13);
+  lblHomePossess.Height := lblPossess.Height;
 
   // Visitor possession
-  lblVisitorPossess.Top := trunc(Height * 0.86);
+  lblVisitorPossess.Top := lblPossess.Top;
   lblVisitorPossess.Left := trunc(shpShotclock.Left * 1.2 + shpShotclock.Width);
   lblVisitorPossess.Width := trunc(shpShotclock.Left * 0.8);
-  lblVisitorPossess.Height := trunc(Height * 0.13);
+  lblVisitorPossess.Height := lblPossess.Height;
 end;
 
 procedure TfrmBoard.InitVars;
 begin
+  HomeName := 'HOME';
+  VisitorName := 'VISITOR';
   HomeScore := 0;
   VisitorScore := 0;
   ShotClockTime := 240;
@@ -753,8 +801,10 @@ var
   RoundedTime: Integer;
   Minutes, Seconds: string;
 begin
-  Form.lblHomeScore.Caption := IntToStr(HomeScore);
-  Form.lblVisitorscore.Caption := IntToStr(VisitorScore);
+  Form.lblHome.Caption := HomeName;
+  Form.lblVisitor.Caption := VisitorName;
+  Form.lblHomeScore.Caption := PadLeft(IntToStr(HomeScore), 3);
+  Form.lblVisitorscore.Caption := PadLeft(IntToStr(VisitorScore), 3);
   Form.lblShotclock.Caption := PadLeft(IntToStr(RoundUp(ShotClockTime / 10)), 2);
   RoundedTime := RoundUp(GameTime / 10);
   Minutes := AddChar('0', IntToStr(RoundedTime div 60), 2);

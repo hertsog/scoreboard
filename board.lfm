@@ -1,13 +1,14 @@
 object frmBoard: TfrmBoard
-  Left = 363
+  Left = 360
   Height = 480
-  Top = 128
-  Width = 640
+  Top = 124
+  Width = 853
   BorderStyle = bsNone
   Caption = 'Scoreboard'
   ClientHeight = 480
-  ClientWidth = 640
-  Color = clGray
+  ClientWidth = 853
+  Color = clBlack
+  Font.Color = clWhite
   KeyPreview = True
   OnClose = FormClose
   OnCreate = FormCreate
@@ -16,6 +17,30 @@ object frmBoard: TfrmBoard
   OnShow = FormShow
   Position = poDefault
   LCLVersion = '1.6.0.4'
+  object lblHomescore: TLabel
+    Left = 56
+    Height = 15
+    Top = 98
+    Width = 74
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '138'
+    Layout = tlCenter
+    ParentColor = False
+    OptimalFill = True
+  end
+  object lblVisitorscore: TLabel
+    Left = 424
+    Height = 15
+    Top = 98
+    Width = 74
+    Alignment = taCenter
+    AutoSize = False
+    Caption = '65'
+    Layout = tlCenter
+    ParentColor = False
+    OptimalFill = True
+  end
   object shpShotclock: TShape
     Left = 168
     Height = 169
@@ -47,6 +72,7 @@ object frmBoard: TfrmBoard
     Alignment = taCenter
     AutoSize = False
     Caption = 'HOME'
+    Font.Color = clWhite
     Font.Height = 16
     ParentColor = False
     ParentFont = False
@@ -60,32 +86,10 @@ object frmBoard: TfrmBoard
     Alignment = taCenter
     AutoSize = False
     Caption = 'VISITOR'
+    Font.Color = clWhite
+    Font.Height = 16
     ParentColor = False
     ParentFont = False
-    OptimalFill = True
-  end
-  object lblHomescore: TLabel
-    Left = 56
-    Height = 15
-    Top = 98
-    Width = 74
-    Alignment = taRightJustify
-    AutoSize = False
-    Caption = '138'
-    Layout = tlCenter
-    ParentColor = False
-    OptimalFill = True
-  end
-  object lblVisitorscore: TLabel
-    Left = 424
-    Height = 15
-    Top = 98
-    Width = 74
-    Alignment = taRightJustify
-    AutoSize = False
-    Caption = '65'
-    Layout = tlCenter
-    ParentColor = False
     OptimalFill = True
   end
   object lblTimer: TLabel
@@ -108,6 +112,7 @@ object frmBoard: TfrmBoard
     Alignment = taCenter
     AutoSize = False
     Caption = 'VEAD'
+    Font.Color = clWhite
     Font.Height = 16
     Layout = tlCenter
     ParentColor = False
@@ -122,6 +127,7 @@ object frmBoard: TfrmBoard
     Alignment = taCenter
     AutoSize = False
     Caption = 'TIMEOUT'
+    Font.Color = clWhite
     Font.Height = 12
     Layout = tlCenter
     ParentColor = False
@@ -136,6 +142,7 @@ object frmBoard: TfrmBoard
     Alignment = taCenter
     AutoSize = False
     Caption = 'PALL'
+    Font.Color = clWhite
     Font.Height = 24
     Layout = tlCenter
     ParentColor = False
@@ -196,6 +203,7 @@ object frmBoard: TfrmBoard
     Alignment = taRightJustify
     AutoSize = False
     Caption = '◄'
+    Font.Color = clWhite
     Font.Height = 16
     Layout = tlCenter
     ParentColor = False
@@ -209,6 +217,7 @@ object frmBoard: TfrmBoard
     Width = 44
     AutoSize = False
     Caption = '►'
+    Font.Color = clWhite
     Font.Height = 16
     Layout = tlCenter
     ParentColor = False
@@ -525,6 +534,33 @@ object frmBoard: TfrmBoard
     Flat = True
     Transparent = False
     OnClick = btnShotclockRunningClick
+    ParentFont = False
+  end
+  object btnHomeName: TSpeedButton
+    Left = 0
+    Height = 22
+    Top = 0
+    Width = 64
+    Caption = 'Set name...'
+    Color = clSilver
+    Flat = True
+    Font.Color = clWhite
+    Transparent = False
+    OnClick = btnHomeNameClick
+    ParentFont = False
+  end
+  object btnVisitorName: TSpeedButton
+    Left = 789
+    Height = 22
+    Top = 0
+    Width = 64
+    Anchors = [akTop, akRight]
+    Caption = 'Set name...'
+    Color = clSilver
+    Flat = True
+    Font.Color = clWhite
+    Transparent = False
+    OnClick = btnVisitorNameClick
     ParentFont = False
   end
   object tmrTicker: TTimer
