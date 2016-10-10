@@ -308,6 +308,7 @@ end;
 procedure TfrmBoard.FormCreate(Sender: TObject);
 begin
   Font.Name := 'Digital-7 Mono';
+  lblShotclock.Font.Color := $00118EFF;
   InitVars;
 end;
 
