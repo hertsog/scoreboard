@@ -272,8 +272,8 @@ procedure TfrmBoard.btnVisitorNameClick(Sender: TObject);
 var
   NewName: string;
 begin
-  NewName := InputBox('Set team name', 'Team name:', 'VISITOR');
-  if NewName <> '' then
+  NewName := VisitorName;
+  if InputQuery('Set team name', 'Team name:', NewName) then
   begin
     VisitorName := NewName;
     UpdateBoard(Self);
@@ -379,6 +379,8 @@ begin
     66: VisitorTimeouts := Max(VisitorTimeouts - 1, 0);
   end;
 
+  ShotClockTime := Min(ShotClockTime, GameTime);
+
   tmrTicker.Enabled := TimeRunning;
   UpdateBoard(Self);
   if frmOtherBoard <> nil then
@@ -462,8 +464,8 @@ procedure TfrmBoard.btnHomeNameClick(Sender: TObject);
 var
   NewName: string;
 begin
-  NewName := InputBox('Set team name', 'Team name:', 'HOME');
-  if NewName <> '' then
+  NewName := HomeName;
+  if InputQuery('Set team name', 'Team name:', NewName) then
   begin
     HomeName := NewName;
     UpdateBoard(Self);
