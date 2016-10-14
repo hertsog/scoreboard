@@ -46,7 +46,7 @@ object frmBoard: TfrmBoard
     Height = 169
     Top = 8
     Width = 169
-    Brush.Color = clGray
+    Brush.Color = clBlack
     Pen.Color = clWhite
     Pen.Width = 2
   end
@@ -58,7 +58,7 @@ object frmBoard: TfrmBoard
     Alignment = taCenter
     AutoSize = False
     Caption = '24'
-    Color = clGray
+    Color = clBlack
     Layout = tlCenter
     ParentColor = False
     Transparent = False
