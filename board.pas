@@ -105,6 +105,7 @@ type
     procedure ReAlign;
     procedure InitVars;
     procedure UpdateBoard(Form: TfrmBoard);
+    procedure UpdateBoard(Form: TfrmBoard; Mirrored: boolean);
     function RoundUp(f: Double): Integer;
     procedure CloseApplication;
   end;
@@ -278,7 +279,7 @@ begin
     VisitorName := NewName;
     UpdateBoard(Self);
     if frmOtherBoard <> nil then
-      UpdateBoard(frmOtherBoard);
+      UpdateBoard(frmOtherBoard, True);
   end;
 end;
 
@@ -384,7 +385,7 @@ begin
   tmrTicker.Enabled := TimeRunning;
   UpdateBoard(Self);
   if frmOtherBoard <> nil then
-    UpdateBoard(frmOtherBoard);
+    UpdateBoard(frmOtherBoard, True);
 end;
 
 procedure TfrmBoard.FormResize(Sender: TObject);
@@ -423,7 +424,7 @@ begin
       end;
 
       frmOtherBoard.WindowState := wsMaximized;
-      UpdateBoard(frmOtherBoard);
+      UpdateBoard(frmOtherBoard, True);
     end;
   end;
 
@@ -470,7 +471,7 @@ begin
     HomeName := NewName;
     UpdateBoard(Self);
     if frmOtherBoard <> nil then
-      UpdateBoard(frmOtherBoard);
+      UpdateBoard(frmOtherBoard, True);
   end;
 end;
 
@@ -498,7 +499,7 @@ begin
 
   UpdateBoard(Self);
   if frmOtherBoard <> nil then
-    UpdateBoard(frmOtherBoard);
+    UpdateBoard(frmOtherBoard, True);
 end;
 
 procedure TfrmBoard.ReAlign;
@@ -792,30 +793,55 @@ begin
   GameTime := 6000;
   HomeFaults := 0;
   VisitorFaults := 0;
-  HomeTimeouts := 5;
-  VisitorTimeouts := 5;
+  HomeTimeouts := 2;
+  VisitorTimeouts := 2;
   TimeRunning := False;
   HomePossess := True;
 end;
 
 procedure TfrmBoard.UpdateBoard(Form: TfrmBoard);
+begin
+  UpdateBoard(Form, False);
+end;
+
+procedure TfrmBoard.UpdateBoard(Form: TfrmBoard; Mirrored: boolean);
 var
   RoundedTime: Integer;
   Minutes, Seconds: string;
 begin
-  Form.lblHome.Caption := HomeName;
-  Form.lblVisitor.Caption := VisitorName;
-  Form.lblHomeScore.Caption := PadLeft(IntToStr(HomeScore), 3);
-  Form.lblVisitorscore.Caption := PadLeft(IntToStr(VisitorScore), 3);
+  if not Mirrored then
+  begin
+    Form.lblHome.Caption := HomeName;
+    Form.lblVisitor.Caption := VisitorName;
+    Form.lblHomeScore.Caption := PadLeft(IntToStr(HomeScore), 3);
+    Form.lblVisitorscore.Caption := PadLeft(IntToStr(VisitorScore), 3);
+    Form.lblHomeFaults.Caption := IntToStr(HomeFaults);
+    Form.lblVisitorFaults.Caption := IntToStr(VisitorFaults);
+    Form.lblHomeTimeouts.Caption := IntToStr(HomeTimeouts);
+    Form.lblVisitorTimeouts.Caption := IntToStr(VisitorTimeouts);
+    Form.lblHomePossess.Visible := HomePossess;
+    Form.lblVisitorPossess.Visible := not HomePossess;
+  end
+  else
+  begin
+    Form.lblHome.Caption := VisitorName;
+    Form.lblVisitor.Caption := HomeName;
+    Form.lblHomeScore.Caption := PadLeft(IntToStr(VisitorScore), 3);
+    Form.lblVisitorscore.Caption := PadLeft(IntToStr(HomeScore), 3);
+    Form.lblHomeFaults.Caption := IntToStr(VisitorFaults);
+    Form.lblVisitorFaults.Caption := IntToStr(HomeFaults);
+    Form.lblHomeTimeouts.Caption := IntToStr(VisitorTimeouts);
+    Form.lblVisitorTimeouts.Caption := IntToStr(HomeTimeouts);
+    Form.lblHomePossess.Visible := not HomePossess;
+    Form.lblVisitorPossess.Visible := HomePossess;
+  end;
+
   Form.lblShotclock.Caption := PadLeft(IntToStr(RoundUp(ShotClockTime / 10)), 2);
   RoundedTime := RoundUp(GameTime / 10);
   Minutes := AddChar('0', IntToStr(RoundedTime div 60), 2);
   Seconds := AddChar('0', IntToStr(RoundedTime mod 60), 2);
   Form.lblTimer.Caption := Minutes + ':' + Seconds;
-  Form.lblHomeFaults.Caption := IntToStr(HomeFaults);
-  Form.lblVisitorFaults.Caption := IntToStr(VisitorFaults);
-  Form.lblHomeTimeouts.Caption := IntToStr(HomeTimeouts);
-  Form.lblVisitorTimeouts.Caption := IntToStr(VisitorTimeouts);
+
   if TimeRunning then
   begin
     Form.btnShotclockRunning.Caption := 'RUNNING (SPACE)';
@@ -824,8 +850,6 @@ begin
   begin
     Form.btnShotclockRunning.Caption := 'PAUSED (SPACE)';
   end;
-  Form.lblHomePossess.Visible := HomePossess;
-  Form.lblVisitorPossess.Visible := not HomePossess;
 end;
 
 function TfrmBoard.RoundUp(f: Double): Integer;

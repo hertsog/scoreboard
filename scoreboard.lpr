@@ -16,14 +16,13 @@ uses
 begin
   RequireDerivedFormResource:=True;
   Application.Initialize;
-  Application.CreateForm(TfrmBoard, frmBoard);
 
   AddFontResource('digital-7-mono.ttf');
-  SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
+
+  Application.CreateForm(TfrmBoard, frmBoard);
 
   Application.Run;
 
   RemoveFontResource('digital-7-mono.ttf');
-  SendMessage(HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 end.
 
